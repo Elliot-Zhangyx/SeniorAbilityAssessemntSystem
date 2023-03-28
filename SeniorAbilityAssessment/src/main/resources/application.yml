@@ -1,0 +1,29 @@
+server:
+  ip: 101.43.196.8
+  port: 9090
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/senior_ability_assessment?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2b8
+#    username: root
+#    password: 123456
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://101.43.196.8:3306/saa?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2b8
+    username: saa
+    password: zyx2002206
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #扫描所有mybatis的xml文件
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+files:
+  upload:
+   path: /home/files/

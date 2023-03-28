@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.seniorabilityassessment.mapper.SubjectMapper">
+
+    <insert id="saveOrUpdateSubject" useGeneratedKeys="true" keyProperty="subjectUid" keyColumn="subject_uid" parameterType="com.graduation.seniorabilityassessment.entity.Subject">
+        INSERT INTO sys_subject
+        (subject_uid,module_id,subject_title,subject_attention)
+        VALUES (
+            #{subjectUid,jdbcType=INTEGER},
+            #{moduleId,jdbcType=INTEGER},
+            #{subjectTitle,jdbcType=VARCHAR},
+            #{subjectAttention,jdbcType=VARCHAR}
+        )
+        ON DUPLICATE KEY UPDATE
+        <if test="subjectTitle != null">
+            subject_title = #{subjectTitle,jdbcType=VARCHAR},
+        </if>
+        <if test="subjectAttention != null">
+            subject_attention = #{subjectAttention,jdbcType=VARCHAR},
+        </if>
+        module_id = #{moduleId,jdbcType=INTEGER}
+        ;
+    </insert>
+    <delete id="deleteById">
+        delete from sys_subject where subject_uid = #{subjectUid}
+    </delete>
+</mapper>

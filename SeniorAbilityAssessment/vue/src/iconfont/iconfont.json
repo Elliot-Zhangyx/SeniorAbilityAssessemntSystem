@@ -1,0 +1,16 @@
+{
+  "id": "3920268",
+  "name": "assess",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2789447",
+      "name": "身份证正面",
+      "font_class": "shenfenzhengzhengmian",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    }
+  ]
+}

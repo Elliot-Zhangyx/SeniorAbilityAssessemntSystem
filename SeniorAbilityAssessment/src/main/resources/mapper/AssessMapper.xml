@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.seniorabilityassessment.mapper.AssessMapper">
+    <resultMap id="Assessor" type="com.graduation.seniorabilityassessment.entity.Assess">
+        <result column="id" property="id" />
+        <result column="assess_id" property="assessId"/>
+        <result column="assess_date" property="assessDate"/>
+        <result column="assess_reason" property="assessReason"/>
+        <result column="assessed_id" property="assessedId"/>
+        <result column="assessed_name" property="assessedName"/>
+        <result column="assessed_identity_card" property="assessedIdentityCard"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="primary_rank" property="primaryRank"/>
+        <result column="rank_change_reason" property="rankChangeReason"/>
+        <result column="ultimate_rank" property="ultimateRank"/>
+        <result column="assess_sign" property="assessSign"/>
+        <result column="information_provider_sign" property="informationProviderSign"/>
+        <collection property="userList" ofType="com.graduation.seniorabilityassessment.entity.User" javaType="java.util.List">
+            <result column="id" property="id"/>
+            <result column="nickname" property="nickname"/>
+            <result column="identity_card" property="identityCard"/>
+            <result column="phone" property="phone"/>
+            <result column="address" property="address"/>
+            <result column="role" property="role"/>
+        </collection>
+    </resultMap>
+    <resultMap id="assess" type="com.graduation.seniorabilityassessment.entity.Assess">
+        <result column="id" property="id" />
+        <result column="assess_id" property="assessId"/>
+        <result column="assess_date" property="assessDate"/>
+        <result column="assess_reason" property="assessReason"/>
+        <result column="assessed_id" property="assessedId"/>
+        <result column="apply_id" property="applyId"/>
+        <result column="assessed_name" property="assessedName"/>
+        <result column="assessed_identity_card" property="assessedIdentityCard"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="primary_rank" property="primaryRank"/>
+        <result column="rank_change_reason" property="rankChangeReason"/>
+        <result column="ultimate_rank" property="ultimateRank"/>
+        <result column="assess_sign" property="assessSign"/>
+        <result column="information_provider_sign" property="informationProviderSign"/>
+        <result column="is_finish" property="isFinish"/>
+        <collection property="conclusion" ofType="com.graduation.seniorabilityassessment.entity.Conclusion">
+            <result column="id" property="id"/>
+            <result column="assess_id" property="assessId"/>
+            <result column="result" property="result"/>
+        </collection>
+
+    </resultMap>
+    <select id="getByAssessResultId"  resultMap="assess">
+        SELECT * FROM sys_assess a left join sys_conclusion c on a.assess_id = c.assess_id
+        <where>
+            a.assess_id = #{assessId}
+        </where>
+    </select>
+    <select id="getByAssessedId" resultMap="Assessor">
+        select sa.*,saa.*,su.* from sys_assess sa left join sys_assessor_assess saa on sa.assess_id = saa.assess_id left join sys_user su on su.id = saa.assessor_id
+        <where>assessed_id =  #{assessedId}</where>
+
+    </select>
+
+    <resultMap id="primaryRankCollection" type="com.graduation.seniorabilityassessment.entity.Assess">
+        <result column="primary_rank" property="primaryRank"/>
+        <result column="number" property="number"/>
+    </resultMap>
+    <resultMap id="ultimateRankCollection" type="com.graduation.seniorabilityassessment.entity.Assess">
+        <result column="primary_rank" property="primaryRank"/>
+        <result column="number" property="number"/>
+    </resultMap>
+    <select id="getPrimaryRankEcharts" resultMap="primaryRankCollection">
+        SELECT count(*) as number,primary_rank FROM sys_assess group by primary_rank
+    </select>
+    <select id="getUltimateRankEcharts" resultMap="ultimateRankCollection">
+        SELECT count(*) as number,ultimate_rank FROM sys_assess group by ultimate_rank
+    </select>
+</mapper>

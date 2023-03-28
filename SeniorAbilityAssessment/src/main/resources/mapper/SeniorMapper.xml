@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.seniorabilityassessment.mapper.SeniorMapper">
+    <update id="updateIsAssess">
+        UPDATE sys_senior SET is_assess = 0 WHERE id = #{id}
+    </update>
+
+    <select id="getByUserId" resultType="com.graduation.seniorabilityassessment.entity.Senior">
+        select * from sys_senior where user_id = #{userId}
+    </select>
+
+
+    <resultMap id="pageSenior" type="com.graduation.seniorabilityassessment.entity.Senior">
+        <id column="id" property="id" />
+        <result column="assessed_name" property="assessedName"/>
+        <result column="identity_card" property="identityCard"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="age" property="age"/>
+        <result column="social_card" property="socialCard"/>
+        <result column="nationality" property="nationality"/>
+        <result column="education_level" property="educationLevel"/>
+        <result column="religion" property="religion"/>
+        <result column="marital_status" property="maritalStatus"/>
+        <result column="residence_status" property="residenceStatus"/>
+        <result column="medical_payments" property="medicalPayments"/>
+        <result column="financial_source" property="financialSource"/>
+        <result column="contact_name" property="contactName"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="is_assess" property="isAssess"/>
+        <result column="user_id" property="userId"/>
+        <collection property="assessList" column="{assessedId = id}" ofType="com.graduation.seniorabilityassessment.entity.Assess" javaType="java.util.ArrayList" select="getAssessByAssessedID">
+
+        </collection>
+    </resultMap>
+    <resultMap id="Assess" type="com.graduation.seniorabilityassessment.entity.Assess">
+        <result column="id" property="id" />
+        <result column="assess_id" property="assessId"/>
+        <result column="assess_date" property="assessDate"/>
+        <result column="assess_reason" property="assessReason"/>
+        <result column="assessed_id" property="assessedId"/>
+        <result column="apply_id" property="applyId"/>
+        <result column="assessed_name" property="assessedName"/>
+        <result column="assessed_identity_card" property="assessedIdentityCard"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="primary_rank" property="primaryRank"/>
+        <result column="rank_change_reason" property="rankChangeReason"/>
+        <result column="ultimate_rank" property="ultimateRank"/>
+        <result column="assess_sign" property="assessSign"/>
+        <result column="information_provider_sign" property="informationProviderSign"/>
+        <result column="is_finish" property="isFinish"/>
+        <result column="assess_id" property="assessId"/>
+        <result column="assess_date" property="assessDate"/>
+        <result column="assess_reason" property="assessReason"/>
+        <result column="assessed_id" property="assessedId"/>
+        <result column="apply_id" property="applyId"/>
+        <result column="assessed_name" property="assessedName"/>
+        <result column="assessed_identity_card" property="assessedIdentityCard"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="primary_rank" property="primaryRank"/>
+        <result column="rank_change_reason" property="rankChangeReason"/>
+        <result column="ultimate_rank" property="ultimateRank"/>
+        <result column="assess_sign" property="assessSign"/>
+        <result column="information_provider_sign" property="informationProviderSign"/>
+        <result column="is_finish" property="isFinish"/>
+    </resultMap>
+    <!-- page为一个自定义分页类，其中包括一个pd的map -->
+    <select id="getAssessByAssessedID" resultMap="Assess">
+        SELECT
+           *
+        FROM
+            sys_assess
+        WHERE assessed_id = #{assessedId} order by assess_date desc
+    </select>
+    <select id="findPage" resultMap="pageSenior">
+        SELECT * FROM sys_senior s
+        <where>
+            <if test="assessedName != null and assessedName != ''">
+                and s.assessed_name like concat('%',#{assessedName},'%')
+            </if>
+            <if test="assessedIdentityCard != null and assessedIdentityCard != ''">
+                and s.identity_card like concat('%',#{assessedIdentityCard},'%')
+            </if>
+            <if test="assessedGender != null and assessedGender != ''">
+                and s.gender like concat('%',#{assessedGender},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

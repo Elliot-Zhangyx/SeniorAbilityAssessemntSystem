@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.seniorabilityassessment.mapper.AssessorAssessMapper">
+<!--    <resultMap id="assessorAssess" type="com.graduation.seniorabilityassessment.entity.AssessorAssess">-->
+<!--        <result column="id" property="id" />-->
+<!--        <result column="assess_id" property="assessId"/>-->
+<!--        <collection property="user" ofType="com.graduation.seniorabilityassessment.entity.User">-->
+<!--            <result column="nickname" property="nickname"/>-->
+<!--            <result column="phone" property="phone"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="getByAssessId"  resultMap="assessorAssess">-->
+<!--        select s.*,a.nickname as nickname from sys_user s JOIN sys_assessor_assess a on s.id = a.assessor_id-->
+<!--        <where>-->
+<!--            s.id = a.#{assessId}-->
+<!--        </where>-->
+<!--    </select>-->
+</mapper>

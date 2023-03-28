@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.seniorabilityassessment.mapper.ModuleMapper">
+    <resultMap id="Module" type="com.graduation.seniorabilityassessment.entity.Module">
+        <result column="id" property="id" />
+        <result column="title" property="title"/>
+        <result column="remark" property="remark"/>
+        <result column="test_id" property="testId"/>
+        <result column="enable" property="enable"/>
+        <result column="create_time" property="createTime"/>
+        <collection property="subjectList"  resultMap="subject" javaType="java.util.List">
+        </collection>
+    </resultMap>
+    <resultMap id="subject" type="com.graduation.seniorabilityassessment.entity.Subject">
+        <result column="subject_uid" property="subjectUid" />
+        <result column="module_id" property="moduleId"/>
+        <result column="subject_title" property="subjectTitle"/>
+        <result column="subject_attention" property="subjectAttention"/>
+        <result column="subject_score" property="subjectScore"/>
+        <collection property="optionList" ofType="com.graduation.seniorabilityassessment.entity.Option" javaType="java.util.List">
+            <result column="subject_id" property="subjectId"/>
+            <result column="subject_option" property="subjectOption"/>
+            <result column="score" property="score"/>
+            <result column="rank_change" property="rankChange"/>
+        </collection>
+    </resultMap>
+    <select id="getByModuleId" resultMap="Module">
+        SELECT * FROM sys_module m
+                          left join sys_subject s on m.id = s.module_id
+                          left join sys_option o on s.subject_uid = o.subject_id where m.id = #{id}
+    </select>
+    <insert id="saveOrUpdateModule" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.graduation.seniorabilityassessment.entity.Module">
+        INSERT INTO sys_module
+        (id,title,remark,test_id,enable)
+        VALUES (
+        #{id,jdbcType=INTEGER},
+        #{title,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{testId,jdbcType=INTEGER},
+        #{enable,jdbcType=INTEGER}
+        )
+        ON DUPLICATE KEY UPDATE
+        <if test="title != null">
+            title = #{title,jdbcType=VARCHAR},
+        </if>
+        remark = #{remark,jdbcType=VARCHAR},
+        test_id = #{testId,jdbcType=INTEGER},
+        enable = #{enable,jdbcType=INTEGER}
+        ;
+    </insert>
+
+
+
+
+
+    <select id="findAll" resultMap="Module">
+        SELECT * FROM sys_module m
+                          left join sys_subject s on m.id = s.module_id
+                          left join sys_option o on s.subject_uid = o.subject_id
+    </select>
+</mapper>
